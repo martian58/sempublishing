@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ author.name }} {{ author.surname }}{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="container mx-auto mt-8 px-4">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="flex items-center">
+            {% if author.photo %}
+            <img src="{{ author.photo.url }}" alt="{{ author.name }} {{ author.surname }}" class="w-32 h-32 object-cover rounded-full mr-8">
+            {% else %}
+            <img src="{% static 'pics/default_author.png' %}" alt="Default Author" class="w-32 h-32 object-cover rounded-full mr-8">
+            {% endif %}
+            <div>
+                <h1 class="text-4xl font-bold">{{ author.name }} {{ author.surname }}</h1>
+            </div>
+        </div>
+        <div class="mt-6">
+            <h2 class="text-2xl font-bold">Biography</h2>
+            <p class="mt-4 text-gray-700">{{ author.biography }}</p>
+        </div>
+    </div>
+
+    <!-- Books by the Author -->
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold">Books by {{ author.name }} {{ author.surname }}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
+            {% for book in books %}
+            <a href="{% url 'book_detail' book.id %}" class="border p-4 rounded-lg shadow-md bg-white flex flex-col items-center no-underline text-gray-700 hover:text-gray-900">
+                {% if book.cover %}
+                <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="w-32 h-48 object-cover rounded-md">
+                {% else %}
+                <img src="{% static 'pics/default_book.png' %}" alt="Default Book" class="w-32 h-48 object-cover rounded-md">
+                {% endif %}
+                <h3 class="text-lg font-bold mt-2 text-center">{{ book.title }}</h3>
+                <p class="text-gray-600 mt-1 text-center">${{ book.price }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

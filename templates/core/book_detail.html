@@ -1,0 +1,82 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="container mx-auto mt-8 px-4">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="flex flex-col md:flex-row items-center">
+            {% if book.cover %}
+            <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="w-48 h-64 object-cover rounded-md md:mr-8 mb-4 md:mb-0">
+            {% else %}
+            <img src="{% static 'pics/default_book.png' %}" alt="Default Book" class="w-48 h-64 object-cover rounded-md md:mr-8 mb-4 md:mb-0">
+            {% endif %}
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl font-bold">{{ book.title }}</h1>
+                <p class="text-gray-600 mt-2">by {{ book.author_names }}</p>
+                <p class="text-gray-700 mt-4">${{ book.price }}</p>
+                <p class="mt-4">{{ book.description }}</p>
+                <a href="{% url 'add_to_cart' book.id %}" class="bg-blue-500 text-white px-4 py-2 mt-4 inline-block rounded hover:bg-blue-600">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Books -->
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold">Related Books</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
+            {% for related_book in related_books %}
+            <div class="border p-4 rounded-lg shadow-md bg-white flex flex-col justify-between h-full items-center">
+                {% if related_book.cover %}
+                <img src="{{ related_book.cover.url }}" alt="{{ related_book.title }}" class="w-32 h-40 object-cover rounded-md">
+                {% else %}
+                <img src="{% static 'pics/default_book.png' %}" alt="Default Book" class="w-32 h-40 object-cover rounded-md">
+                {% endif %}
+                <div class="flex flex-col items-center justify-between flex-grow">
+                    <div class="text-center">
+                        <h3 class="text-lg font-bold mt-2">{{ related_book.title }}</h3>
+                        <p class="text-gray-600 mt-1">{{ related_book.author_names }}</p>
+                        <p class="text-gray-600 mt-1">${{ related_book.price }}</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{% url 'book_detail' related_book.id %}" class="bg-blue-500 text-white px-3 py-1 mt-4 inline-block rounded hover:bg-blue-600">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8">
+            <nav class="flex justify-center">
+                <ul class="inline-flex items-center">
+                    {% if related_books.has_previous %}
+                    <li>
+                        <a href="?page={{ related_books.previous_page_number }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">&laquo; Previous</a>
+                    </li>
+                    {% endif %}
+                    {% for num in related_books.paginator.page_range %}
+                    {% if related_books.number == num %}
+                    <li>
+                        <span class="px-3 py-1 bg-blue-500 text-white rounded">{{ num }}</span>
+                    </li>
+                    {% elif num > related_books.number|add:-3 and num < related_books.number|add:3 %}
+                    <li>
+                        <a href="?page={{ num }}" class="px-3 py-1 bg-white text-blue-500 rounded hover:bg-blue-600 hover:text-white">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if related_books.has_next %}
+                    <li>
+                        <a href="?page={{ related_books.next_page_number }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Next &raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

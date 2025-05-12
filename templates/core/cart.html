@@ -1,0 +1,50 @@
+{% extends "core/base.html" %}
+{% load custom_filters %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-8 px-4">
+    <h1 class="text-3xl font-bold">Your Cart</h1>
+    {% if cart_items %}
+    <div class="overflow-x-auto mt-4">
+        <table class="table-auto w-full min-w-max">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Book</th>
+                    <th class="px-4 py-2">Quantity</th>
+                    <th class="px-4 py-2">Price</th>
+                    <th class="px-4 py-2">Total</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td class="border px-4 py-2">{{ item.book.title }}</td>
+                    <td class="border px-4 py-2">{{ item.quantity }}</td>
+                    <td class="border px-4 py-2">${{ item.book.price|floatformat:2 }}</td>
+                    <td class="border px-4 py-2">${{ item.book.price|multiply:item.quantity|floatformat:2 }}</td>
+                    <td class="border px-4 py-2">
+                        <div class="flex items-center">
+                            <a href="{% url 'remove_one_from_cart' item.book.id %}" class="bg-red-500 text-white px-2 py-1 rounded">-</a>
+                            <span class="mx-2">{{ item.quantity }}</span>
+                            <a href="{% url 'add_one_to_cart' item.book.id %}" class="bg-green-500 text-white px-2 py-1 rounded">+</a>
+                            <a href="{% url 'remove_from_cart' item.book.id %}" class="bg-red-500 text-white px-3 py-1 rounded ml-2">Remove</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">
+        <h2 class="text-2xl font-bold">Total: ${{ total_price }}</h2>
+        <a href="{% url 'checkout' %}" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 inline-block">Proceed to Checkout</a>
+    </div>
+    {% else %}
+    <p class="mt-4">Your cart is empty.</p>
+    {% endif %}
+    <hr class="my-4">
+</div>
+{% endblock %}

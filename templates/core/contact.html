@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block title %}Contact - Iksadyayinevi{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="container mx-auto mt-8 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Contact Us</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Head Office -->
+        <div>
+            <h2 class="text-2xl font-bold mb-2 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C8.13 2 5 5.13 5 9c0 3.87 3.13 7 7 7s7-3.13 7-7c0-3.87-3.13-7-7-7zM12 2v7m0 4a4 4 0 100 8 4 4 0 000-8zm0 4h.01"></path>
+                </svg>
+                Head Office
+            </h2>
+            <p>Golbasi, Adiyaman Province</p>
+            <p>TURKEY</p>
+            <p>Telephone: +994 513577450</p>
+            <p>Email: <a href="mailto:iksadyayinevi@gmail.com" class="text-blue-500">iksadyayinevi@gmail.com</a></p>
+        </div>
+        
+        <!-- ASIA Office -->
+        <div>
+            <h2 class="text-2xl font-bold mb-2 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C8.13 2 5 5.13 5 9c0 3.87 3.13 7 7 7s7-3.13 7-7c0-3.87-3.13-7-7-7zM12 2v7m0 4a4 4 0 100 8 4 4 0 000-8zm0 4h.01"></path>
+                </svg>
+                ASIA Office
+            </h2>
+            <p>05000099, Aiteke bi Str.</p>
+            <p>050000</p>
+            <p>Almaty, Kazakhstan</p>
+            <p>Telephone: +7 778 9210336</p>
+            <p>Email: <a href="mailto:iksadasia@gmail.com" class="text-blue-500">iksadasia@gmail.com</a></p>
+        </div>
+        
+        <!-- Europe Office -->
+        <div>
+            <h2 class="text-2xl font-bold mb-2 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C8.13 2 5 5.13 5 9c0 3.87 3.13 7 7 7s7-3.13 7-7c0-3.87-3.13-7-7-7zM12 2v7m0 4a4 4 0 100 8 4 4 0 000-8zm0 4h.01"></path>
+                </svg>
+                Europe Office
+            </h2>
+            <p>2 Rue de Bruxelles Roissypole Est, 93293 Tremblay-en-France, France</p>
+            <p>Telephone: +33 1 49 19 21 35</p>
+            <p>Email: <a href="mailto:iksadparis@gmail.com" class="text-blue-500">iksadparis@gmail.com</a></p>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="mt-8 bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Send Us a Message</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" name="name" id="name" class="mt-1 block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" name="email" id="email" class="mt-1 block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                <textarea name="message" id="message" rows="4" class="mt-1 block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="attachment" class="block text-sm font-medium text-gray-700">Attach a File</label>
+                <input type="file" name="attachment" id="attachment" class="mt-1 block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Send Message</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

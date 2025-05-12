@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold">Checkout</h1>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table-auto w-full mt-4">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Book</th>
+                    <th class="px-4 py-2">Quantity</th>
+                    <th class="px-4 py-2">Price</th>
+                    <th class="px-4 py-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td class="border px-4 py-2">{{ item.book.title }}</td>
+                    <td class="border px-4 py-2">{{ item.quantity }}</td>
+                    <td class="border px-4 py-2">${{ item.book.price }}</td>
+                    <td class="border px-4 py-2">${{ item.book.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="mt-4">
+            <h2 class="text-2xl font-bold">Total: ${{ total_price }}</h2>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 inline-block">Pay Now</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

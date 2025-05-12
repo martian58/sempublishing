@@ -1,0 +1,87 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block title %}SEM Publishing{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="container mx-auto mt-8 px-4">
+    <img src="{% static 'pics/logo_secondary.png' %}" alt="" class="w-full h-auto">
+    <br>
+    <h1 class="text-3xl font-bold text-center">Welcome to SEM Publishing House</h1>
+    <p class="mt-4 text-center">Discover a wide variety of books from different genres and authors. Enjoy a seamless shopping experience with our easy-to-use cart and secure payment options.</p>
+    
+    <div class="flex flex-col md:flex-row mt-8">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/5 pr-4">
+            <!-- Search Bar -->
+            <div class="mb-6">
+                <form method="get" action="{% url 'home' %}">
+                    <input type="text" name="q" value="{{ home_data.query|default:'' }}" placeholder="Search for books..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                </form>
+            </div>
+            <!-- Categories -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Categories</h2>
+                <ul class="list-disc list-inside">
+                    {% for category in home_data.categories %}
+                    <li>
+                        <a href="{% url 'category_books' category.slug %}" class="text-blue-500 hover:underline">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Featured Books -->
+        <div class="w-full md:w-4/5">
+            <h2 class="text-2xl font-bold">Featured Books</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
+                {% for book in home_data.books %}
+                <div class="border p-4 rounded-lg shadow-md bg-white flex flex-col justify-between h-full">
+                    <a href="{% url 'book_detail' book.id %}">
+                        <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="w-full h-56 object-cover rounded-md">
+                        <h3 class="text-lg font-bold mt-2">{{ book.title }}</h3>
+                        <p class="text-gray-600">by {{ book.author_names }}</p>
+                        <p class="text-gray-700 mt-1">${{ book.price }}</p>
+                    </a>
+                    <div class="mt-4">
+                        <a href="{% url 'add_to_cart' book.id %}" class="bg-blue-500 text-white px-3 py-2 w-full inline-block rounded hover:bg-blue-600 text-center">Add to Cart</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            <div class="mt-8">
+                <nav class="flex justify-center">
+                    <ul class="inline-flex items-center">
+                        {% if home_data.books.has_previous %}
+                        <li>
+                            <a href="?page={{ home_data.books.previous_page_number }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">&laquo; Previous</a>
+                        </li>
+                        {% endif %}
+                        {% for num in home_data.books.paginator.page_range %}
+                        {% if home_data.books.number == num %}
+                        <li>
+                            <span class="px-3 py-1 bg-blue-500 text-white rounded">{{ num }}</span>
+                        </li>
+                        {% elif num > home_data.books.number|add:-3 and num < home_data.books.number|add:3 %}
+                        <li>
+                            <a href="?page={{ num }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-white text-blue-500 rounded hover:bg-blue-600 hover:text-white">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if home_data.books.has_next %}
+                        <li>
+                            <a href="?page={{ home_data.books.next_page_number }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Next &raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
