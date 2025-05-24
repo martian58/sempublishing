@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,16 +32,25 @@
         <div class="container mx-auto flex justify-between items-center">
             <div class="text-white text-lg font-bold">
                 <a href="{% url 'home' %}">
-                    <img src="{% static 'pics/logo.png' %}" alt="Iksadyayinevi Logo" class="h-10">
+                    <img src="{% static 'pics/logo.png' %}" alt="SEM Publishing Logo" class="h-10">
                 </a>
             </div>
             <div class="hidden md:flex space-x-4">
-                <a href="{% url 'home' %}" class="text-white">Home</a>
-                <a href="{% url 'book_list' %}" class="text-white">Books</a>
-                <a href="{% url 'authors' %}" class="text-white">Authors</a>
-                <a href="{% url 'about' %}" class="text-white">About Us</a>
+                <a href="{% url 'home' %}" class="text-white">{% trans 'Home' %}</a>
+                <a href="{% url 'book_list' %}" class="text-white">{% trans 'Books' %}</a>
+                <a href="{% url 'authors' %}" class="text-white">{% trans 'Authors' %}</a>
+                <a href="{% url 'about' %}" class="text-white">{% trans 'About Us' %}</a>
             </div>
             <div class="md:hidden flex items-center space-x-4">
+                <!-- Language Switch Button -->
+                <button onclick="switchLanguage()" class="text-white focus:outline-none">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == 'az' %}
+                        EN
+                    {% else %}
+                        AZ
+                    {% endif %}
+                </button>
                 <div class="relative">
                     <a href="{% url 'cart' %}" class="text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -59,11 +69,20 @@
             </div>
             <div class="hidden md:flex items-center space-x-4">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="text-white hover:underline">Logout</a>
+                    <a href="{% url 'logout' %}" class="text-white hover:underline">{% trans 'Logout' %}</a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="text-white">Login</a>
-                    <a href="{% url 'register' %}" class="text-white">Register</a>
+                    <a href="{% url 'login' %}" class="text-white">{% trans 'Login' %}</a>
+                    <a href="{% url 'register' %}" class="text-white">{% trans 'Register' %}</a>
                 {% endif %}
+                <button onclick="switchLanguage()" class="text-white hover:underline">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == 'az' %}
+                        EN
+                    {% else %}
+                        AZ
+                    {% endif %}
+                </button>
+                
                 <div class="relative">
                     <a href="{% url 'cart' %}" class="text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -77,15 +96,15 @@
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden">
-            <a href="{% url 'home' %}" class="block text-white px-2 py-1">Home</a>
-            <a href="{% url 'book_list' %}" class="block text-white px-2 py-1">Books</a>
-            <a href="{% url 'authors' %}" class="block text-white px-2 py-1">Authors</a>
-            <a href="{% url 'about' %}" class="block text-white px-2 py-1">About Us</a>
+            <a href="{% url 'home' %}" class="block text-white px-2 py-1">{% trans 'Home' %}</a>
+            <a href="{% url 'book_list' %}" class="block text-white px-2 py-1">{% trans 'Books' %}</a>
+            <a href="{% url 'authors' %}" class="block text-white px-2 py-1">{% trans 'Authors' %}</a>
+            <a href="{% url 'about' %}" class="block text-white px-2 py-1">{% trans 'About Us' %}</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="block text-white px-2 py-1">Logout</a>
+                <a href="{% url 'logout' %}" class="block text-white px-2 py-1">{% trans 'Logout' %}</a>
             {% else %}
-                <a href="{% url 'login' %}" class="block text-white px-2 py-1">Login</a>
-                <a href="{% url 'register' %}" class="block text-white px-2 py-1">Register</a>
+                <a href="{% url 'login' %}" class="block text-white px-2 py-1">{% trans 'Login' %}</a>
+                <a href="{% url 'register' %}" class="block text-white px-2 py-1">{% trans 'Register' %}</a>
             {% endif %}
         </div>
     </nav>
@@ -101,15 +120,15 @@
         <div class="container mx-auto text-white text-center">
             <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <div class="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0">
-                    <a href="{% url 'about' %}" class="footer-link">About Us</a>
-                    <a href="{% url 'publishing_policy' %}" class="footer-link">Publishing Policy</a>
-                    <a href="{% url 'authors' %}" class="footer-link">Authors</a>
-                    <a href="{% url 'academic_literature' %}" class="footer-link">Academic Literature</a>
-                    <a href="{% url 'publish_request' %}" class="footer-link">Publish Request</a>
-                    <a href="{% url 'contact' %}" class="footer-link">Contact</a>
+                    <a href="{% url 'about' %}" class="footer-link">{% trans 'About Us' %}</a>
+                    <a href="{% url 'publishing_policy' %}" class="footer-link">{% trans 'Publishing Policy' %}</a>
+                    <a href="{% url 'authors' %}" class="footer-link">{% trans 'Authors' %}</a>
+                    <a href="{% url 'academic_literature' %}" class="footer-link">{% trans 'Academic Literature' %}</a>
+                    <a href="{% url 'publish_request' %}" class="footer-link">{% trans 'Publish Request' %}</a>
+                    <a href="{% url 'contact' %}" class="footer-link">{% trans 'Contact' %}</a>
                 </div>
                 <div>
-                    &copy; 2025 Iksadyayinevi - All Rights Reserved
+                    &copy; {% trans '2025 SEM Publishing - All Rights Reserved' %}
                 </div>
                 <div class="flex space-x-4">
                     <a href="https://instagram.com" target="_blank" aria-label="Instagram">
@@ -159,6 +178,22 @@
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
         });
+
+        function switchLanguage() {
+            const url = new URL(window.location.href);
+            const pathParts = url.pathname.split('/');
+            let langIndex = pathParts.findIndex(p => p === 'en' || p === 'az');
+    
+            if (langIndex !== -1) {
+                pathParts[langIndex] = pathParts[langIndex] === 'en' ? 'az' : 'en';
+            } else {
+                pathParts.splice(1, 0, 'az'); // Default to 'az' if no language in path
+            }
+    
+            // Always redirect to the home page with the selected language
+            const newLang = pathParts[langIndex] || 'az';
+            window.location.href = `/${newLang}/`;
+        }
     </script>
 </body>
 </html>

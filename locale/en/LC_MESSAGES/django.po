@@ -1,0 +1,205 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-24 09:33-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: sempublishing/settings.py:116 sempublishing/settings.py:124
+msgid "English"
+msgstr ""
+
+#: sempublishing/settings.py:117 sempublishing/settings.py:130
+msgid "Azerbaijani"
+msgstr ""
+
+#: templates/core/base.html:39 templates/core/base.html:99
+msgid "Home"
+msgstr ""
+
+#: templates/core/base.html:40 templates/core/base.html:100
+#: templates/core/book_list.html:10 templates/core/book_list.html:38
+msgid "Books"
+msgstr ""
+
+#: templates/core/base.html:41 templates/core/base.html:101
+#: templates/core/base.html:125
+msgid "Authors"
+msgstr ""
+
+#: templates/core/base.html:42 templates/core/base.html:102
+#: templates/core/base.html:123
+msgid "About Us"
+msgstr ""
+
+#: templates/core/base.html:72 templates/core/base.html:104
+msgid "Logout"
+msgstr ""
+
+#: templates/core/base.html:74 templates/core/base.html:106
+#: templates/core/login.html:13 templates/core/login.html:26
+#: templates/core/register.html:41
+msgid "Login"
+msgstr ""
+
+#: templates/core/base.html:75 templates/core/base.html:107
+#: templates/core/login.html:37 templates/core/register.html:13
+#: templates/core/register.html:30
+msgid "Register"
+msgstr ""
+
+#: templates/core/base.html:124
+msgid "Publishing Policy"
+msgstr ""
+
+#: templates/core/base.html:126
+msgid "Academic Literature"
+msgstr ""
+
+#: templates/core/base.html:127
+msgid "Publish Request"
+msgstr ""
+
+#: templates/core/base.html:128
+msgid "Contact"
+msgstr ""
+
+#: templates/core/base.html:131
+msgid "2025 SEM Publishing - All Rights Reserved"
+msgstr ""
+
+#: templates/core/book_detail.html:19
+msgid "by"
+msgstr ""
+
+#: templates/core/book_detail.html:26
+msgid "Download Free"
+msgstr ""
+
+#: templates/core/book_detail.html:30 templates/core/book_list.html:49
+#: templates/core/home.html:52
+msgid "Add to Cart"
+msgstr ""
+
+#: templates/core/book_detail.html:37
+msgid "Related Books"
+msgstr ""
+
+#: templates/core/book_detail.html:53
+msgid "View Details"
+msgstr ""
+
+#: templates/core/book_detail.html:66 templates/core/book_list.html:61
+#: templates/core/home.html:64
+msgid "Previous"
+msgstr ""
+
+#: templates/core/book_detail.html:82 templates/core/book_list.html:77
+#: templates/core/home.html:80
+msgid "Next"
+msgstr ""
+
+#: templates/core/book_list.html:15
+msgid "Search for books..."
+msgstr ""
+
+#: templates/core/book_list.html:16
+msgid "Search"
+msgstr ""
+
+#: templates/core/book_list.html:25 templates/core/home.html:28
+msgid "Categories"
+msgstr ""
+
+#: templates/core/cart.html:8
+msgid "Your Cart"
+msgstr ""
+
+#: templates/core/cart.html:14 templates/core/checkout.html:14
+msgid "Book"
+msgstr ""
+
+#: templates/core/cart.html:15 templates/core/checkout.html:15
+msgid "Quantity"
+msgstr ""
+
+#: templates/core/cart.html:16 templates/core/checkout.html:16
+msgid "Price"
+msgstr ""
+
+#: templates/core/cart.html:17 templates/core/cart.html:42
+#: templates/core/checkout.html:17 templates/core/checkout.html:32
+msgid "Total"
+msgstr ""
+
+#: templates/core/cart.html:18
+msgid "Actions"
+msgstr ""
+
+#: templates/core/cart.html:33
+msgid "Remove"
+msgstr ""
+
+#: templates/core/cart.html:43
+msgid "Proceed to Checkout"
+msgstr ""
+
+#: templates/core/cart.html:46
+msgid "Your cart is empty."
+msgstr ""
+
+#: templates/core/checkout.html:8
+msgid "Checkout"
+msgstr ""
+
+#: templates/core/home.html:7
+msgid "SEM Publishing"
+msgstr ""
+
+#: templates/core/home.html:14
+msgid "Welcome to SEM Publishing House"
+msgstr ""
+
+#: templates/core/home.html:15
+msgid ""
+"Discover a wide variety of books from different genres and authors. Enjoy a "
+"seamless shopping experience with our easy-to-use cart and secure payment "
+"options."
+msgstr ""
+
+#: templates/core/home.html:41
+msgid "Featured Books"
+msgstr ""
+
+#: templates/core/login.html:18 templates/core/register.html:18
+msgid "Email"
+msgstr ""
+
+#: templates/core/login.html:22 templates/core/register.html:22
+msgid "Password"
+msgstr ""
+
+#: templates/core/login.html:37
+msgid "Don't have an account?"
+msgstr ""
+
+#: templates/core/register.html:26
+msgid "Confirm Password"
+msgstr ""
+
+#: templates/core/register.html:41
+msgid "Already have an account?"
+msgstr ""

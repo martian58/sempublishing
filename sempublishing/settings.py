@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,12 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
+    'rosetta',
+    'parler',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -105,14 +110,39 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'UTC'
+LANGUAGES = [
+    ('en', _('English')),
+    ('az', _('Azerbaijani')),
+]
+
+PARLER_LANGUAGES = {
+    None: (
+        {
+            'code': 'en',
+            'name': _('English'),
+            'fallbacks': ['en'],
+            'default': True,
+        },
+        {
+            'code': 'az',
+            'name': _('Azerbaijani'),
+            'fallbacks': ['az'],
+        },
+    ),
+    'default': {
+        'fallbacks': ['en'],
+        'hide_untranslated': False,
+    }
+}
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -134,3 +164,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# PayPal settings
+PAYPAL_RECEIVER_EMAIL = 'sb-gph47f42494555@business.example.com'  # Set your PayPal receiver email here
+PAYPAL_TEST = True  # Set to False in production
+
+#paypal business emails
+# elvanceferov090@example.com
+# 5diAnXFs9@WUh3$
+
+# Client
+# elvanceferov9090@example.com
+# 5diAnXFs9@WUh3$
+
+
+# Rosetta settings
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
+ROSETTA_MESSAGES_PER_PAGE = 50
+ROSETTA_STORAGE_CLASS = 'rosetta.storage.DatabaseRosettaStorage'  # Use database storage for translations
+ROSETTA_SHOW_AT_ADMIN_PANEL = True  # Uncomment to show Rosetta in the admin panel
