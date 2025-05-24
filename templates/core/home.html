@@ -1,16 +1,18 @@
 {% extends "core/base.html" %}
+{% load i18n %}
+
 
 {% load static %}
 
-{% block title %}SEM Publishing{% endblock %}
+{% block title %}{% trans 'SEM Publishing' %}{% endblock %}
 
 {% block content %}
 <!-- Main Content -->
 <div class="container mx-auto mt-8 px-4">
     <img src="{% static 'pics/logo_secondary.png' %}" alt="" class="w-full h-auto">
     <br>
-    <h1 class="text-3xl font-bold text-center">Welcome to SEM Publishing House</h1>
-    <p class="mt-4 text-center">Discover a wide variety of books from different genres and authors. Enjoy a seamless shopping experience with our easy-to-use cart and secure payment options.</p>
+    <h1 class="text-3xl font-bold text-center">{% trans 'Welcome to SEM Publishing House' %}</h1>
+    <p class="mt-4 text-center">{% trans 'Discover a wide variety of books from different genres and authors. Enjoy a seamless shopping experience with our easy-to-use cart and secure payment options.' %}</p>
     
     <div class="flex flex-col md:flex-row mt-8">
         <!-- Sidebar -->
@@ -23,7 +25,7 @@
             </div>
             <!-- Categories -->
             <div class="bg-white p-4 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold mb-4">Categories</h2>
+                <h2 class="text-xl font-bold mb-4">{% trans 'Categories' %}</h2>
                 <ul class="list-disc list-inside">
                     {% for category in home_data.categories %}
                     <li>
@@ -36,7 +38,7 @@
 
         <!-- Featured Books -->
         <div class="w-full md:w-4/5">
-            <h2 class="text-2xl font-bold">Featured Books</h2>
+            <h2 class="text-2xl font-bold">{% trans 'Featured Books' %}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
                 {% for book in home_data.books %}
                 <div class="border p-4 rounded-lg shadow-md bg-white flex flex-col justify-between h-full">
@@ -47,7 +49,7 @@
                         <p class="text-gray-700 mt-1">${{ book.price }}</p>
                     </a>
                     <div class="mt-4">
-                        <a href="{% url 'add_to_cart' book.id %}" class="bg-blue-500 text-white px-3 py-2 w-full inline-block rounded hover:bg-blue-600 text-center">Add to Cart</a>
+                        <a href="{% url 'add_to_cart' book.id %}" class="bg-blue-500 text-white px-3 py-2 w-full inline-block rounded hover:bg-blue-600 text-center"> {% trans 'Add to Cart' %}</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -59,7 +61,7 @@
                     <ul class="inline-flex items-center">
                         {% if home_data.books.has_previous %}
                         <li>
-                            <a href="?page={{ home_data.books.previous_page_number }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">&laquo; Previous</a>
+                            <a href="?page={{ home_data.books.previous_page_number }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">&laquo; {% trans 'Previous' %}</a>
                         </li>
                         {% endif %}
                         {% for num in home_data.books.paginator.page_range %}
@@ -75,7 +77,7 @@
                         {% endfor %}
                         {% if home_data.books.has_next %}
                         <li>
-                            <a href="?page={{ home_data.books.next_page_number }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Next &raquo;</a>
+                            <a href="?page={{ home_data.books.next_page_number }}{% if home_data.query %}&q={{ home_data.query }}{% endif %}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">{% trans 'Next' %} &raquo;</a>
                         </li>
                         {% endif %}
                     </ul>

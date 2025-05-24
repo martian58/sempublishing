@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,24 +10,24 @@
 </head>
 <body>
 <div class="container mx-auto mt-8 px-4">
-    <h1 class="text-3xl font-bold text-center mb-6">Register</h1>
+    <h1 class="text-3xl font-bold text-center mb-6">{% trans 'Register' %}</h1>
     <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
         <form method="post">
             {% csrf_token %}
             <div class="mb-4">
-                <label for="email" class="block text-gray-700">Email</label>
+                <label for="email" class="block text-gray-700">{% trans 'Email' %}</label>
                 <input type="text" id="email" name="email" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label for="password" class="block text-gray-700">Password</label>
+                <label for="password" class="block text-gray-700">{% trans 'Password' %}</label>
                 <input type="password" id="password" name="password" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label for="password2" class="block text-gray-700">Confirm Password</label>
+                <label for="password2" class="block text-gray-700">{% trans 'Confirm Password' %}</label>
                 <input type="password" id="password2" name="password2" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
             </div>
             <div class="flex justify-center mt-4">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Register</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">{% trans 'Register' %}</button>
             </div>
         </form>
         {% if messages %}
@@ -37,7 +38,7 @@
             </div>
         {% endif %}
         <div class="mt-4 text-center">
-            <p class="text-gray-700">Already have an account? <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Login</a></p>
+            <p class="text-gray-700">{% trans 'Already have an account?' %}' <a href="{% url 'login' %}" class="text-blue-500 hover:underline">{% trans 'Login' %}</a></p>
         </div>
     </div>
 </div>

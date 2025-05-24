@@ -11,6 +11,14 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import ContactMessage
 from .forms import ContactMessageForm
+
+# PayPal
+from django.conf import settings
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
+import uuid
+
+
 # Create your views here.
 
 def home(request):
@@ -102,12 +110,26 @@ def cart_item_count(request):
 def checkout(request):
     session_key = request.session.session_key
     cart_items = OrderItem.objects.filter(session_key=session_key)
-    if request.method == 'POST':
-        # Process payment here (integration with a payment gateway would go here)
-        cart_items.delete()  # Clear the cart after successful payment
-        return redirect('home')
     total_price = sum(item.book.price * item.quantity for item in cart_items)
-    return render(request, 'core/checkout.html', {'cart_items': cart_items, 'total_price': total_price})
+
+    host = request.get_host()
+    paypal_dict = {
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "item_name": "Order from {}".format(host),
+        "invoice": str(uuid.uuid4()),  # Unique invoice ID
+        "amount": total_price,
+        "currency_code": "USD",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('home')),
+        "cancel_return": request.build_absolute_uri(reverse('cart')),
+        "allowed_payment_method": "instant",
+    }
+    
+    form = PayPalPaymentsForm(initial=paypal_dict)
+
+    # Process payment here (integration with a payment gateway would go here)
+    # cart_items.delete()  # Clear the cart after successful payment
+    return render(request, 'core/checkout.html', {'cart_items': cart_items, 'total_price': total_price, 'paypal_form': form})
 
 
 
@@ -153,7 +175,7 @@ def user_logout(request):
 def book_list(request):
     query = request.GET.get('q')
     if query:
-        books = Book.objects.filter(title__icontains=query)
+        books = Book.objects.filter(translations__title__icontains=query)
     else:
         books = Book.objects.all()
     categories = Category.objects.all()
@@ -170,7 +192,7 @@ def book_list(request):
 
 def category_books(request, slug):
     categories = Category.objects.all()
-    category = get_object_or_404(Category, slug=slug)
+    category = get_object_or_404(Category.objects.translated(slug=slug))
     books = Book.objects.filter(category=category)
     paginator = Paginator(books, 12)  # Show 12 books per page
     page_number = request.GET.get('page')
@@ -180,6 +202,7 @@ def category_books(request, slug):
         'categories': categories
     }
     return render(request, 'core/book_list.html', {'books_data': books_data})
+
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
