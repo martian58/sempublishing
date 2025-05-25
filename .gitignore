@@ -13,3 +13,4 @@ assets/
 db.sqlite3
 .env
 test.txt
+kap.txt
