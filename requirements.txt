@@ -1,0 +1,16 @@
+asgiref==3.8.1
+certifi==2025.4.26
+charset-normalizer==3.4.2
+Django==5.2.1
+django-parler==2.3
+django-paypal==2.1
+django-rosetta==0.10.2
+idna==3.10
+pillow==11.2.1
+polib==1.2.0
+pytz==2025.2
+requests==2.32.3
+sqlparse==0.5.3
+stripe==12.1.0
+typing_extensions==4.13.2
+urllib3==2.4.0

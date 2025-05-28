@@ -18,6 +18,11 @@ from django.urls import reverse
 from paypal.standard.forms import PayPalPaymentsForm
 import uuid
 
+# Stripe
+import stripe
+
+stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
+
 
 # Create your views here.
 
@@ -107,30 +112,88 @@ def cart_item_count(request):
     return JsonResponse({'count': count})
 
 
+# Paypal Checkout
+
+# def checkout(request):
+#     session_key = request.session.session_key
+#     cart_items = OrderItem.objects.filter(session_key=session_key)
+#     total_price = sum(item.book.price * item.quantity for item in cart_items)
+
+#     host = request.get_host()
+#     paypal_dict = {
+#         "business": settings.PAYPAL_RECEIVER_EMAIL,
+#         "item_name": "Order from {}".format(host),
+#         "invoice": str(uuid.uuid4()),  # Unique invoice ID
+#         "amount": total_price,
+#         "currency_code": "USD",
+#         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+#         "return": request.build_absolute_uri(reverse('home')),
+#         "cancel_return": request.build_absolute_uri(reverse('cart')),
+#         "allowed_payment_method": "instant",
+#     }
+    
+#     form = PayPalPaymentsForm(initial=paypal_dict)
+
+#     # Process payment here (integration with a payment gateway would go here)
+#     # cart_items.delete()  # Clear the cart after successful payment
+#     return render(request, 'core/checkout.html', {'cart_items': cart_items, 'total_price': total_price, 'paypal_form': form})
+
+# Stripe Checkout
+
 def checkout(request):
     session_key = request.session.session_key
     cart_items = OrderItem.objects.filter(session_key=session_key)
     total_price = sum(item.book.price * item.quantity for item in cart_items)
 
-    host = request.get_host()
-    paypal_dict = {
-        "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "item_name": "Order from {}".format(host),
-        "invoice": str(uuid.uuid4()),  # Unique invoice ID
-        "amount": total_price,
-        "currency_code": "USD",
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return": request.build_absolute_uri(reverse('home')),
-        "cancel_return": request.build_absolute_uri(reverse('cart')),
-        "allowed_payment_method": "instant",
-    }
-    
-    form = PayPalPaymentsForm(initial=paypal_dict)
+    # Create line items for Stripe
+    line_items = []
+    for item in cart_items:
+        line_items.append({
+            'price_data': {
+                'currency': 'usd',
+                'unit_amount': int(item.book.price * 100),  # in cents
+                'product_data': {
+                    'name': item.book.title,
+                },
+            },
+            'quantity': item.quantity,
+        })
 
-    # Process payment here (integration with a payment gateway would go here)
-    # cart_items.delete()  # Clear the cart after successful payment
-    return render(request, 'core/checkout.html', {'cart_items': cart_items, 'total_price': total_price, 'paypal_form': form})
+    # Create Stripe Checkout Session
+    checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=line_items,
+        mode='payment',
+        success_url=request.build_absolute_uri(reverse('checkout_success')),
+        cancel_url=request.build_absolute_uri(reverse('cart')),
+        metadata={
+            'session_key': session_key,
+            'order_id': str(uuid.uuid4())
+        }
+    )
 
+    return render(request, 'core/checkout.html', {
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'stripe_public_key': settings.STRIPE_TEST_PUBLIC_KEY,
+        'checkout_session_id': checkout_session.id
+    })
+
+def checkout_success(request):
+    session_key = request.session.session_key
+    cart_items_qs = OrderItem.objects.filter(session_key=session_key)
+
+    # Copy data before deleting
+    cart_items = list(cart_items_qs)
+    total_price = sum(item.book.price * item.quantity for item in cart_items)
+
+    # Now it's safe to delete
+    cart_items_qs.delete()
+
+    return render(request, 'core/checkout_success.html', {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    })
 
 
 # Auth
