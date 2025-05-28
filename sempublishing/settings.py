@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from django.utils.translation import gettext_lazy as _
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -147,16 +148,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-#STATIC_URL = 'static/'
+STATIC_URL = 'static/'
 
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'static')
-#]
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, 'static')
+]
 
 #STATIC_ROOT = 'assets'
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 
@@ -172,7 +173,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # PayPal settings
-PAYPAL_RECEIVER_EMAIL = 'sb-gph47f42494555@business.example.com'  # Set your PayPal receiver email here
+PAYPAL_RECEIVER_EMAIL = config('PAYPAL_RECEIVER_EMAIL')
 PAYPAL_TEST = True  # Set to False in production
 
 #paypal business emails
@@ -189,3 +190,9 @@ ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
 ROSETTA_MESSAGES_PER_PAGE = 50
 ROSETTA_STORAGE_CLASS = 'rosetta.storage.DatabaseRosettaStorage'  # Use database storage for translations
 ROSETTA_SHOW_AT_ADMIN_PANEL = True  # Uncomment to show Rosetta in the admin panel
+
+
+
+# Stripe settings
+STRIPE_TEST_PUBLIC_KEY = config('STRIPE_TEST_PUBLIC_KEY')
+STRIPE_TEST_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
